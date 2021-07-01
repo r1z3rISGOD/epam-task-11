@@ -1,4 +1,5 @@
 import './main.scss'
+import 'core-js'
 import {objectsCreate} from "./objectCreate";
 import {directionChange} from "./directionChange";
 

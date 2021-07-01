@@ -4,7 +4,7 @@ const
     autoprefixer = require('autoprefixer');
 
 gulp.task('autoprefixer', () => {
-    return gulp.src('./src/main.scss')
+    return gulp.src('./src/styles/main.scss')
         .pipe(postcss([ autoprefixer() ]))
-        .pipe(gulp.dest('./src/styles'))
+        .pipe(gulp.dest('./src/'))
 })
