@@ -1,31 +1,33 @@
 import './main.scss'
 import 'core-js'
 import {objectsCreate} from "./objectCreate";
-import {directionChange} from "./directionChange";
+import {albums} from "./classCreate";
+import {showMore} from "./showMore";
 
-async function fetchData() {
+async function fetchData(url) {
     try {
-        let response = await fetch("https://jsonplaceholder.typicode.com/photos");
+        let response = await fetch(url);
         return await response.json();
     } catch (e) {
         alert('We got some errors, Captain!')
     }
 }
 
-fetchData().then(r => main(r));
+async function main() {
+    const albumData = await fetchData("https://jsonplaceholder.typicode.com/albums");
+    const photoData = await fetchData("https://jsonplaceholder.typicode.com/photos");
+    for(let index of albumData) {
+        await albums(index);
+    }
 
-async function main(response) {
-    let index = Math.floor(Math.random() * 5000);
-    await objectsCreate(index, response);
+    showMore('wrapper');
 
-    const buttonNext = document.querySelector('.button-next');
-    const buttonPrev = document.querySelector('.button-prev');
-
-
-    buttonNext.addEventListener('click', () => {
-        directionChange(index, response, 'next');
-    })
-    buttonPrev.addEventListener('click', () => {
-        directionChange(index, response, 'prev');
-    })
+    const el = document.querySelectorAll(`.wrapper`);
+    for (let num of el) {
+        num.addEventListener('click', () => {
+            objectsCreate(photoData, num.id);
+        })
+    }
 }
+
+main();

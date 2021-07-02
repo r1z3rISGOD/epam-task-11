@@ -1,17 +1,22 @@
-import {createElements} from "./createElements";
+import {createPhotos} from "./createPhotos";
 
 class Photo {
-    constructor(url, title) {
+    constructor(url, title, id) {
         this.url = url;
         this.title = title;
+        this.id = id;
     }
 }
 
-export function objectsCreate(index, response) {const photoCenter = new Photo (response[index].url);
-    const photoLeft1 = new Photo (response[index-2].url);
-    const photoLeft2 = new Photo (response[index-1].url);
-    const photoRight1 = new Photo (response[index+1].url);
-    const photoRight2 = new Photo (response[index+2].url);
-
-    createElements(photoCenter, photoLeft1, photoLeft2, photoRight1, photoRight2);
+export function objectsCreate(response, albumId) {
+    const container = document.querySelector('.container');
+    container.innerHTML = '';
+    let count = 0;
+    for(let el of response) {
+        if(el.albumId === +albumId) {
+            const photo = new Photo(el.url, el.title, el.id);
+            createPhotos(photo, count)
+            count++;
+        }
+    }
 }
